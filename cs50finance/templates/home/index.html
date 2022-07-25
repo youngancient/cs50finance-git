@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="main">
+    <h1>Welcome User ...</h1>
+    <div class="svg">
+      <img src="{% static 'assets/Trust.svg' %}" />
+    </div>
+    <div class="mid-links">
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Register</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

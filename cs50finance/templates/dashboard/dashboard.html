@@ -1,0 +1,16 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Dashboard</title>
+{% endblock %}
+
+{% block main %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <p class="{{ message.tags }} show django-message">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

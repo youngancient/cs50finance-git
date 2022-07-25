@@ -1,0 +1,208 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Kumbh Sans', sans-serif;
+}
+.bdr{
+    border: 1px solid black;
+}
+.desktop{
+    display: none;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #eee5e9;
+    font-size: 25px;
+    color: blue;
+}
+header a, .mid-links a{
+    padding: 5px;
+}
+header a, .mobile-drop-down a{
+    text-decoration: none;
+    font-size: 18px;
+}
+header a:hover, .mid-links a:hover{
+    color: #dc3545;
+    border-bottom: 2px solid #dc3545;
+}
+#logo{
+    border-bottom: none;
+}
+.logo{
+    display: flex;
+}
+.logo h1, .logo p{
+    font-size: 30px;
+}
+.logo p{
+    margin-left: 2px;
+    color: #dc3545;
+}
+.logo h1, main h1{
+    color: blue;
+}
+.logo #dollar{
+    color: #dc3545;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+}
+.mobile-drop-down{
+    position: absolute;
+    flex-direction: column;
+    top: -30px;
+    left: 190px;
+    background: #f0d2df;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 100px;
+    display: none;
+}
+.m-dashboard{
+    height:auto
+}
+.m-dashboard *{
+    margin-top: 5px;
+}
+.a-links{
+    width: 80%;
+    margin-top: 5px;
+}
+.mobile-drop-down a{
+    font-size: 20px;
+    letter-spacing: 4px;
+}
+.main{
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.svg{
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.svg img{
+    width: 100%;
+}
+.mid-links{
+    margin-top: 20px;
+}
+.mid-links a{
+    font-weight: 500;
+}
+.django-message{
+    font-weight: 500;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+form input{
+    outline: 0;
+    margin-top: 10px;
+    height: 40px;
+    width: 200px;
+    border: 1px solid #f0d2df;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: verdana;
+}
+input:focus{
+    border: 3px solid #f0d2df;
+}
+input[type="password"]{
+    font-family: verdana;
+    font-size: 15px;
+}
+form p{
+    font-size: 14px;
+    display: none;
+}
+.error{
+    color: #dc3545
+}
+.success{
+    color: rgb(24, 136, 24);
+}
+form p:not(:first-child){
+    margin-top: 5px;
+}
+form button, .dashboard button, .m-dashboard button{
+    height: 40px;
+    width: 120px;
+    color: white;
+    background: #dc3545;
+    outline: 0;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+form button{
+    margin-top: 20px;
+}
+form button:hover{
+    background: blue;
+}
+.dashboard button:hover{
+    background: blue;
+}
+.dashboard .div-btn a{
+    border-bottom: 0;
+}
+footer{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+footer p, footer a{
+    font-size: 14px;
+}
+footer p{
+    color: rgb(49, 49, 49);
+}
+a{
+    text-decoration: none;
+    color: blue;
+}
+footer a:hover{
+    text-decoration: underline;
+    color: #dc3545;
+}
+.show{
+    display: block;
+}
+@media screen and (min-width:728px) {
+    .desktop{
+        display: block;
+    }
+    .mobile{
+        display: none;
+    }
+    .dashboard{
+        width: 60%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
