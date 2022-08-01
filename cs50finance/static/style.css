@@ -130,6 +130,12 @@ form input{
 input:focus{
     border: 3px solid #f0d2df;
 }
+input[type="file"]{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 input[type="password"]{
     font-family: verdana;
     font-size: 15px;
@@ -144,6 +150,7 @@ form p{
 .success{
     color: rgb(24, 136, 24);
 }
+
 form p:not(:first-child){
     margin-top: 5px;
 }

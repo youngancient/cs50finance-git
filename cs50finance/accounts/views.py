@@ -5,7 +5,7 @@ from django.contrib import messages
 def index(request):
     return render(request,'home/index.html')
 
-def register(request):
+def register_view(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -21,7 +21,7 @@ def register(request):
                 return redirect('login')
     return render(request,'accounts/register.html')
 
-def login(request):
+def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -35,9 +35,6 @@ def login(request):
             return redirect('login')
     return render(request,'accounts/login.html')
 
-def dashboard(request):
-    return render(request,'dashboard/dashboard.html')
-
-def logout(request):
+def logout_view(request):
     auth.logout(request)
     return redirect('home')

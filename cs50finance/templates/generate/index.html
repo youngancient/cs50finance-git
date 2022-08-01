@@ -1,0 +1,9 @@
+
+<h3>Chill ur file is being generated</h3>
+{% if ph %}
+<h3>{{ ph.name }}</h3>
+<h3>{{ ph.id }}</h3>
+<h3>{{ ph.img_file.path }}</h3>
+<h3>{{ ph.img_file.url }}</h3>
+<img src="{{ ph.img_file.url }}" alt="{{ ph.name}}">
+{% endif %}
