@@ -4,6 +4,7 @@ import zipfile
 from django.conf import settings
 from dashboard.models import Photo
 import random
+import shutil
 from time import sleep
 import os
 # Create your views here.
@@ -11,17 +12,25 @@ import os
 base = settings.BASE_DIR 
 output = f"{base}/media/output"
 upload_dir = f"{base}/media/uploads"
+
+# makes the output folder once
 if not os.path.isdir(output):
     os.mkdir(output)
 # this function generates the favicon and zip
 def generate_all(request,model_id):
     current_user = request.user
     pulled_img = Photo.objects.get(id=model_id)
-    WEB_SERVER_ROOT = f"{output}/user{current_user.id}"
+    some = random.randint(0,10000)
+    
+    output_path = f"{output}/user{current_user.id}"
+    if not os.path.isdir(output_path):
+        os.mkdir(output_path)
+
+    WEB_SERVER_ROOT = f"{output_path}/{some}"
+    # makes the folder where the output for a specific user will be
     if not os.path.isdir(WEB_SERVER_ROOT):
         os.mkdir(WEB_SERVER_ROOT)
     YOUR_ICON = f"{upload_dir}/{pulled_img.name}"
-    # print(ph.name)
     # from the favicons library this generates the favicon and html codes
     with Favicons(YOUR_ICON, WEB_SERVER_ROOT) as favicons:
         # generate favicon
@@ -41,28 +50,32 @@ def generate_all(request,model_id):
         html_file.writelines(code+"\n")
     html_file.close()
 
-    all_files= os.listdir(WEB_SERVER_ROOT)
-    # this exempts .zip files and grabs the generated favicons
-    needed_files = [file for file in all_files if file.endswith('.png') or file.endswith('.ico') or file.endswith('.jpeg') or file.endswith('.txt') ]
+    # using shutil
+    shutil.make_archive(f"{WEB_SERVER_ROOT}",'zip',f"{output_path}",f"{some}")
 
 
-    # creates a zipfile path
-    zip_name = f"{WEB_SERVER_ROOT}/user{current_user.id}.zip"
-    if os.path.isfile(zip_name):
-    # this creates a random number to prevent conflicts in names
-        any = random.randint(0,1000)
-        zip_name = f"{WEB_SERVER_ROOT}/user{id+any}.zip"
-    with zipfile.ZipFile(zip_name, mode="w") as archive:
-        for icon in needed_files:
-            archive.write(f"{WEB_SERVER_ROOT}/{icon}")
-        archive.close()
+    # using zipfile
+    # all_files= os.listdir(WEB_SERVER_ROOT)
+    # # this exempts .zip files and grabs the generated favicons
+    # needed_files = [file for file in all_files if file.endswith('.png') or file.endswith('.ico') or file.endswith('.jpeg') or file.endswith('.txt') ]
+    # # # creates a zipfile path
+    # zip_name = f"{WEB_SERVER_ROOT}/user{current_user.id}.zip"
+    # if os.path.isfile(zip_name):
+    # # this creates a random number to prevent conflicts in names
+    #     any = random.randint(0,1000)
+    #     zip_name = f"{WEB_SERVER_ROOT}/user{id+any}.zip"
+    # with zipfile.ZipFile(zip_name, mode="w") as archive:
+    #     for icon in needed_files:
+    #         archive.write(f"{WEB_SERVER_ROOT}/{icon}")
+    #     archive.close()
 
-        # waits for 5s before continuing the process of deleting
-    sleep(1)
-    # deletes the unneeded files
-    for file in needed_files:
-        os.remove(os.path.join(WEB_SERVER_ROOT,file)) 
-        
+    #     # waits for 5s before continuing the process of deleting
+    # sleep(1)
+    # # deletes the unneeded files
+    # for file in needed_files:
+    #     os.remove(os.path.join(WEB_SERVER_ROOT,file)) 
+
+    #using shutil
     return render(request,'generate/index.html', context={
         'pulled_img':pulled_img,
     })
