@@ -32,7 +32,7 @@
   </head>
   <body>
     <header class="">
-      <a href="{% url 'home' %}" id="logo">
+      <a href="{% url 'accounts:home' %}" id="logo">
         <div class="logo">
           <h1>C</h1>
           <h1 id="dollar">$</h1>
@@ -42,8 +42,8 @@
         </div>
       </a>
       <div class="desktop desktop-nav">
-        <a href="{% url 'register' %}">Register</a>
-        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'accounts:register' %}">Register</a>
+        <a href="{% url 'accounts:login' %}">Login</a>
       </div>
       <div class="mobile mobile-nav">
         <i class="fa-solid fa-bars icon"></i>
@@ -51,8 +51,8 @@
     </header>
     <main class="">
       <div class="mobile-drop-down mobile">
-        <a href="{% url 'register' %}">Register</a>
-        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'accounts:register' %}">Register</a>
+        <a href="{% url 'accounts:login' %}">Login</a>
       </div>
       {% block main %}
       {% endblock %}

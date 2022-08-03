@@ -10,10 +10,11 @@ User=get_user_model()
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
     folder = "output"
-    return '{0}/{1}/{2}'.format(folder,instance.uploader, filename)
+    return '{0}/{1}/{2}'.format(folder,instance.uploader.id, filename)
 
 class Photo(models.Model):
     name = models.CharField(max_length=30)
+    zip_name = models.CharField(max_length=30)
     uploader = models.ForeignKey(User,related_name='uploader',on_delete=models.CASCADE)
     img_file = models.ImageField(upload_to="uploads/")
 

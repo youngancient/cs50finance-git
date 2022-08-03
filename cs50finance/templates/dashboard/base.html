@@ -32,7 +32,7 @@
   </head>
   <body>
     <header class="">
-      <a href="{% url 'dashboard' %}" id="logo">
+      <a href="{% url 'dashboard:index' %}" id="logo">
         <div class="logo">
           <h1>C</h1>
           <h1 id="dollar">$</h1>
@@ -49,7 +49,7 @@
             <a href="#">History</a>
         </div>
         <div class="div-btn">
-            <a href="{% url 'logout' %}"><button>Logout</button></a>
+            <a href="{% url 'accounts:logout' %}"><button>Logout</button></a>
         </div>
       </div>
       <div class="mobile mobile-nav">
@@ -62,7 +62,7 @@
         <a href="#">Buy</a>
         <a href="#">Sell</a>
         <a href="#">History</a>
-        <a href="{% url 'logout' %}"><button>Logout</button></a>
+        <a href="{% url 'accounts:logout' %}"><button>Logout</button></a>
       </div>
       {% block main %}
       {% endblock %}

@@ -13,12 +13,12 @@ def register_view(request):
         if password == password_two:
             if User.objects.filter(username = username).exists():
                 messages.error(request,'Username Already Used')
-                return redirect('register')
+                return redirect('accounts:register')
             else:
                 user = User.objects.create_user(username=username, password=password)
                 user.save();
                 messages.success(request,'Account created successfully')
-                return redirect('login')
+                return redirect('accounts:login')
     return render(request,'accounts/register.html')
 
 def login_view(request):
@@ -29,12 +29,12 @@ def login_view(request):
         if user is not None:
             auth.login(request,user)
             messages.success(request,f'Welcome on board {user.username}')
-            return redirect('dashboard')
+            return redirect('dashboard:index')
         else:
             messages.error(request,'Invalid Credentials!')
-            return redirect('login')
+            return redirect('accounts:login')
     return render(request,'accounts/login.html')
 
 def logout_view(request):
     auth.logout(request)
-    return redirect('home')
+    return redirect('accounts:home')

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from favicons import Favicons
-import zipfile
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from dashboard.models import Photo
+from dashboard.models import Photo, Zip
 import random
 import shutil
 from time import sleep
@@ -17,6 +17,7 @@ upload_dir = f"{base}/media/uploads"
 if not os.path.isdir(output):
     os.mkdir(output)
 # this function generates the favicon and zip
+@login_required(redirect_field_name="next", login_url="accounts:login")
 def generate_all(request,model_id):
     current_user = request.user
     pulled_img = Photo.objects.get(id=model_id)
@@ -51,31 +52,13 @@ def generate_all(request,model_id):
     html_file.close()
 
     # using shutil
-    shutil.make_archive(f"{WEB_SERVER_ROOT}",'zip',f"{output_path}",f"{some}")
-
-
-    # using zipfile
-    # all_files= os.listdir(WEB_SERVER_ROOT)
-    # # this exempts .zip files and grabs the generated favicons
-    # needed_files = [file for file in all_files if file.endswith('.png') or file.endswith('.ico') or file.endswith('.jpeg') or file.endswith('.txt') ]
-    # # # creates a zipfile path
-    # zip_name = f"{WEB_SERVER_ROOT}/user{current_user.id}.zip"
-    # if os.path.isfile(zip_name):
-    # # this creates a random number to prevent conflicts in names
-    #     any = random.randint(0,1000)
-    #     zip_name = f"{WEB_SERVER_ROOT}/user{id+any}.zip"
-    # with zipfile.ZipFile(zip_name, mode="w") as archive:
-    #     for icon in needed_files:
-    #         archive.write(f"{WEB_SERVER_ROOT}/{icon}")
-    #     archive.close()
-
-    #     # waits for 5s before continuing the process of deleting
-    # sleep(1)
-    # # deletes the unneeded files
-    # for file in needed_files:
-    #     os.remove(os.path.join(WEB_SERVER_ROOT,file)) 
-
-    #using shutil
+    zip = Zip()
+    zip.name = pulled_img.zip_name
+    zip.downloader = request.user
+    zip.zip_file = shutil.make_archive(f"{WEB_SERVER_ROOT}",'zip',f"{output_path}",f"{some}")
+    zip.save();
+    # remove directory
+    shutil.rmtree(WEB_SERVER_ROOT)
     return render(request,'generate/index.html', context={
         'pulled_img':pulled_img,
     })

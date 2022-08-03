@@ -13,7 +13,7 @@
         {% endfor %}
     {% endif %}
     <h1 class=""> Image to Favicon</h1>
-    <form novalidate  method="POST" enctype="multipart/form-data" action="{% url 'upload' %}">
+    <form novalidate  method="POST" enctype="multipart/form-data" action="{% url 'dashboard:upload' %}">
         {% csrf_token %}
         <input type="file" id="image" name="upload" accept=".jpg,.png,.svg,.jpeg,.tiff" />
         <p class="error-size error"></p>

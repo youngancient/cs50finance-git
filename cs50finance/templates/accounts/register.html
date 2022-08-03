@@ -7,7 +7,7 @@
 
 {% block main %}
     <h1>Register Here</h1>
-    <form novalidate action="{% url 'register' %}" method="POST">
+    <form novalidate action="{% url 'accounts:register' %}" method="POST">
         {% csrf_token %}
         {% if messages %}
         {% for message in messages %}
