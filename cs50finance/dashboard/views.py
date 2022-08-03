@@ -1,9 +1,13 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-# from django.core.files.storage import FileSystemStorage
-from .models import Photo
+import os
+from .models import Photo, Zip
+
 # Create your views here.
+# unsaved_favs = Zip.objects.filter(is_saved = False)
+# for unsaved in unsaved_favs:
+#     unsaved.delete();
 
 # normal dashboard view
 @login_required(redirect_field_name="next", login_url="accounts:login")
@@ -31,8 +35,42 @@ def upload(request):
                 photo.img_file = uploaded
                 photo.save();
                 messages.success(request,f"{uploaded.name} was uploaded successfully!")
-                return redirect('generate',photo.id)
+                return redirect('generate:generate_all',photo.id)
             else:
                 messages.error(request,f"{uploaded.name} has an unsupported extension")
             return redirect('dashboard:index')
     
+@login_required(redirect_field_name="next", login_url="accounts:login")
+def download(request, zip_id):
+    zip_list = Zip.objects.filter(id=zip_id)
+    if zip_list.exists():
+        zip = zip_list[0]
+        if 'download' in request.POST:
+            messages.success(request,f"Downloading {zip.name} will start automatically !")
+            return redirect('dashboard:index')
+        if 'save' in request.POST:
+            zip.is_saved = True
+            zip.save();
+            messages.success(request,f"{zip.name} was saved successfully !")
+            return redirect('dashboard:favicon_list')
+        return render(request, 'dashboard/download.html',{
+            'zip':zip,
+        })   
+    return render(request,'404.html')
+
+@login_required(redirect_field_name="next", login_url="accounts:login")
+def favicon_list(request):
+    zips = Zip.objects.filter(downloader=request.user, is_saved=True)
+    if request.method == "POST":
+        if 'delete' in request.POST:
+            return redirect('dashboard:delete')
+    return render(request,'dashboard/favicon_list.html', {
+        'zips':zips,
+    })
+
+@login_required(redirect_field_name="next", login_url="accounts:login")
+def delete_view(request,pk):
+    if request.method == "POST":
+        del_zip =Zip.objects.get(pk=pk)
+        del_zip.delete();
+    return redirect('dashboard:favicon_list')

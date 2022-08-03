@@ -43,10 +43,10 @@
       </a>
       <div class="desktop desktop-nav dashboard">
         <div class="a-links">
-            <a href="#">Quotes</a>
-            <a href="#">Buy</a>
-            <a href="#">Sell</a>
-            <a href="#">History</a>
+            <a href="{% url 'dashboard:index' %}">Dashboard</a>
+            <a href="#">Docs</a>
+            <a href="#">Contact</a>
+            <a href="{% url 'dashboard:favicon_list' %}">Saved Favs</a>
         </div>
         <div class="div-btn">
             <a href="{% url 'accounts:logout' %}"><button>Logout</button></a>

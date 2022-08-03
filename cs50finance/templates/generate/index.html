@@ -1,9 +1,0 @@
-
-<h3>Chill ur file is being generated</h3>
-{% if pulled_img %}
-<h3>{{ pulled_img.name }}</h3>
-<h3>{{ pulled_img.id }}</h3>
-<h3>{{ pulled_img.img_file.path }}</h3>
-<h3>{{ pulled_img.img_file.url }}</h3>
-<img src="{{ pulled_img.img_file.url }}" alt="{{ pulled_img.name}}">
-{% endif %}

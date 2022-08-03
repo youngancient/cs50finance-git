@@ -22,12 +22,22 @@ class Photo(models.Model):
         name = self.name.split(".")
         return f"{name[0]}"
 
+    def delete(self, *args,**kwargs):
+        self.img_file.delete()
+        super().delete(*args,**kwargs)
 # create zipfile class here
 
 class Zip(models.Model):
     name = models.CharField(max_length=30)
+    origin = models.ForeignKey(Photo,related_name='origin', on_delete=models.CASCADE)
     downloader = models.ForeignKey(User,related_name='downloader',on_delete=models.CASCADE, blank=True, null=True)
     zip_file = models.FileField(upload_to=user_directory_path)
+    is_saved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+
+    def delete(self, *args,**kwargs):
+        self.zip_file.delete()
+        self.origin.delete()
+        super().delete(*args,**kwargs)

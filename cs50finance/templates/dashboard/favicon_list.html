@@ -1,0 +1,37 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Saved Favicons</title>
+{% endblock %}
+
+{% block main %}
+<h1>Saved Favicons</h1>
+{% if zips %}
+    {% if messages %}
+    {% for message in messages %}
+    <p class="{{ message.tags }} show django-message">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    {% for zip in zips %}
+        <div class="favicons">
+            <h2>{{ zip.name }}</h2>
+            <h4>Generated from: {{ zip.origin.name }} </h4>
+            <form novalidate method="POST" action="{% url 'dashboard:delete' zip.pk %}">
+                {% csrf_token %}
+            <button type="submit" name="delete">Delete</button>
+            </form>
+            <form novalidate method="POST">
+                {% csrf_token %}
+                <button type="submit" name="download">Download</button>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No Saved Favicons saved yet</p>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'accounts/login.js' %}"></script>
+{% endblock %}
