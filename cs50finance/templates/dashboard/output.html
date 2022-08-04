@@ -1,0 +1,34 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Output</title>
+{% endblock %}
+
+{% block main %}
+  {% if zip %}
+  <h1>Download or Save</h1>
+  <h2>Favicon {{ zip.name }} has been generated</h2>
+  {% if messages %}
+  <div class="">
+    {% for message in messages %}
+    <p class="{{ message.tags }} show django-message">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+  </div>
+  <div class="output">
+    <form novalidate  method="POST" action="{% url 'dashboard:save' zip.pk %}">
+      {% csrf_token %}
+      <button type="submit" name="save">Save</button>
+    </form>
+    <form novalidate  method="POST" action="{% url 'dashboard:download' zip.pk %}">
+      {% csrf_token %}
+      <button type="submit" name="download">Download</button>
+    </form>
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'accounts/login.js' %}"></script>
+{% endblock %}

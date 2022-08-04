@@ -21,7 +21,7 @@
                 {% csrf_token %}
             <button type="submit" name="delete">Delete</button>
             </form>
-            <form novalidate method="POST">
+            <form novalidate method="POST" action="{% url 'dashboard:download' zip.pk %}">
                 {% csrf_token %}
                 <button type="submit" name="download">Download</button>
             </form>

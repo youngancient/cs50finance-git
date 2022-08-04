@@ -156,6 +156,9 @@ form p{
 .favicons form{
     margin-top: 0;
 }
+.output form{
+    margin-top: 0;
+}
 .favicons *:not(:first-child){
     margin-left: 20px;
 }

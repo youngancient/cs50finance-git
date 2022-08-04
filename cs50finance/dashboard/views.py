@@ -1,9 +1,10 @@
+from django.http import HttpResponse, FileResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import os
 from .models import Photo, Zip
-
+from django.utils.encoding import smart_str
 # Create your views here.
 # unsaved_favs = Zip.objects.filter(is_saved = False)
 # for unsaved in unsaved_favs:
@@ -41,19 +42,18 @@ def upload(request):
             return redirect('dashboard:index')
     
 @login_required(redirect_field_name="next", login_url="accounts:login")
-def download(request, zip_id):
+def output(request, zip_id):
     zip_list = Zip.objects.filter(id=zip_id)
     if zip_list.exists():
         zip = zip_list[0]
         if 'download' in request.POST:
-            messages.success(request,f"Downloading {zip.name} will start automatically !")
-            return redirect('dashboard:index')
-        if 'save' in request.POST:
+            return redirect('dashboard:download',zip.id)
+        elif 'save' in request.POST:
             zip.is_saved = True
             zip.save();
             messages.success(request,f"{zip.name} was saved successfully !")
             return redirect('dashboard:favicon_list')
-        return render(request, 'dashboard/download.html',{
+        return render(request, 'dashboard/output.html',{
             'zip':zip,
         })   
     return render(request,'404.html')
@@ -61,9 +61,6 @@ def download(request, zip_id):
 @login_required(redirect_field_name="next", login_url="accounts:login")
 def favicon_list(request):
     zips = Zip.objects.filter(downloader=request.user, is_saved=True)
-    if request.method == "POST":
-        if 'delete' in request.POST:
-            return redirect('dashboard:delete')
     return render(request,'dashboard/favicon_list.html', {
         'zips':zips,
     })
@@ -74,3 +71,18 @@ def delete_view(request,pk):
         del_zip =Zip.objects.get(pk=pk)
         del_zip.delete();
     return redirect('dashboard:favicon_list')
+
+@login_required(redirect_field_name="next", login_url="accounts:login")
+def save_view(request,zip_id):
+    if request.method == "POST":
+        save_zip =Zip.objects.get(id=zip_id)
+        save_zip.is_saved = True
+        save_zip.save();
+    return redirect('dashboard:favicon_list')
+
+@login_required(redirect_field_name="next", login_url="accounts:login")
+def download(request,zip_id):
+    if request.method == "POST":
+        download_zip = Zip.objects.get(id=zip_id)
+        return FileResponse(download_zip.zip_file, as_attachment=True)
+    return redirect('dashboard:index')
