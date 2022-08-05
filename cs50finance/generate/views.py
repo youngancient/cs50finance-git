@@ -66,6 +66,7 @@ def generate_all(request,model_id):
         zip.save();
         # remove directory
         shutil.rmtree(WEB_SERVER_ROOT)
+        os.remove(YOUR_ICON)
         return redirect('dashboard:output',zip.id)
     return render(request,'404.html')
 
